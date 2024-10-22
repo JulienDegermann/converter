@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+  <h1>coucou</h1>
+  {{ form_start(form) }}
+  <div>
+    {{ form_label(form.file) }}
+    {{ form_widget(form.file) }}
+  </div>
+  {{ form_end(form) }}
+{% endblock %}
