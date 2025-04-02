@@ -21,6 +21,10 @@ COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 
 
 RUN chmod +x /var/opt/docker.sh
+
+RUN chown -R www-data:www-data /var/www/html/
+RUN chmod -R 775 /var/www/html/public/uploads/
+
 ENTRYPOINT ["/var/opt/docker.sh"]
 
 WORKDIR /var/www/html
