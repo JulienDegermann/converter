@@ -1,0 +1,12 @@
+services:
+    php:
+        image: converter_webp
+        container_name: converter_webp
+
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8089:80"
+        volumes:
+            - .:/var/www/html

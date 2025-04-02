@@ -1,0 +1,68 @@
+body {
+    all: unset;
+}
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.title {
+    color: black;
+    font-size: 3rem;
+}
+
+label {
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    color: black;
+    background: white;
+    border: 1px solid blue;
+    padding: 10px;
+    border-radius: 5px;
+    width: 50%;
+    height: 100px;
+    cursor: pointer;
+    border: 1px orangered dashed;
+
+    &::file-selector-button {
+        color: white;
+        background: orangered;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+    }
+}
+
+button[type="submit"] {
+    color: white;
+    cursor: pointer;
+    background: orangered;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    margin-top: 1rem;
+}
+
+#flashes {
+    .flash-error,
+    .flash-success {
+        padding: .5rem 1rem;
+        margin: 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 1rem;
+        border: 1px solid;
+        width: max-content;
+    }
+    .flash-error {
+        background: #f8d7da;
+        color: #721c24;
+        border-color: #f5c6cb;
+    }
+    .flash-success {
+        background: #d4edda;
+        color: #155724;
+        border-color: #c3e6cb;
+    }
+}

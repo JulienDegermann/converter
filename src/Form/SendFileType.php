@@ -14,13 +14,13 @@ class SendFileType extends AbstractType
     {
         $builder
             ->add('file', FileType::class, [
-                'label' => 'Ajouter des images',
+                'label' => 'Glisse tes images ici ou clique pour télécharger',
                 'mapped' => false,
                 'required' => true,
                 'multiple' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Envoyer l\'image',
+                'label' => 'Envoyer les fichiers',
             ])
         ;
     }

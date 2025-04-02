@@ -2,119 +2,49 @@
 
 namespace App\Services;
 
-use Exception;
+use InvalidArgumentException;
 use GdImage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use ZipArchive;
 
 class ImageConverter
 {
-
-  /**
-   * @param UploadedFile $file The file to convert
-   * @return string The mime type of the file
-   */
-  public function getMimeType(UploadedFile $file): string
-  {
-    return $file->getClientMimeType();
-  }
-
-  /**
-   * @param UploadedFile $file The jpeg image to convert
-   * @return string The image resource
-   */
-  public function jpegToWebp(UploadedFile $file): GdImage
-  {
-    return imagecreatefromjpeg($file);
-  }
-
-  /**
-   * @param UploadedFile $file The png image to convert
-   * @return string The image resource
-   */
-  public function pngToWebp(UploadedFile $file): GdImage
-  {
-    return imagecreatefrompng($file);
-  }
-
-  /**
-   * @param UploadedFile $file The gif image to convert
-   * @return string The image resource
-   */
-  public function gifToWebp(UploadedFile $file): GdImage
-  {
-    return imagecreatefromgif($file);
-  }
-
-  /**
-   * @param UploadedFile $file The bmp image to convert
-   * @return string The image resource GdImage
-   */
-  public function bmpToWebp(UploadedFile $file): GdImage
-  {
-    return imagecreatefrombmp($file);
-  }
-
-  public function createFolder(): string
-  {
-    $folder = 'webp' . uniqid();
-    mkdir($folder);
-    return $folder;
-  }
-
-
   /** 
+   * Create an image file in webp format from an other image file
    * @param UploadedFile $file The file to convert
-   * @param bool $mutliple If the several files are uploaded : make a folder or zip
-   * @return string The webp image and save it on server
+   * @return GdImage the converted file
    */
-  public function convertToWebp(UploadedFile $file, ?string $folder = "./uploads/"): string
+  public function convertToWebp(UploadedFile $file): GdImage
   {
-    $mimeType = $this->getMimeType($file);
+    $mimeType = $file->getClientMimeType();
 
     $image = null;
 
-    if ($mimeType === 'image/jpeg') {
-      $image = $this->jpegToWebp($file);
-    } else if ($mimeType === 'image/png') {
-      $image = $this->pngToWebp($file);
-    } else if ($mimeType === 'image/gif') {
-      $image = $this->gifToWebp($file);
-    } else if ($mimeType === 'image/bmp') {
-      $image = $this->bmpToWebp($file);
-    } else {
-      throw new \Exception('Le fichier n\'est pas une image supportée');
+    if ($mimeType === 'image/webp') {
+      throw new InvalidArgumentException('Le fichier est déjà au format webp');
+    }
+    if ($mimeType === 'image/jpeg' || $mimeType === 'image/jpg') {
+      $image = imagecreatefromjpeg($file);
+    }
+    if ($mimeType === 'image/png') {
+      $image = imagecreatefrompng($file);
+    }
+    if ($mimeType === 'image/gif') {
+      $image = imagecreatefromgif($file);
+    }
+    if ($mimeType === 'image/bmp') {
+      $image = imagecreatefrombmp($file);
     }
 
-
-
-    // save the image with uniqid and destroy the image created
-    if ($image instanceof GdImage) {
-      $newFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '.webp';
-      // save on server
-
-      // dd($folder . $newFileName);
-      imagewebp($image, $folder . $newFileName, -1);
-      // destroy created image (RAM)
-      imagedestroy($image);
-
-      return $newFileName;
-
-      // if (file_exists($newFileName)) {
-      //   // dd('ok');
-
-      //   // unlink($newFileName); // Supprime le fichier
-
-      //   $file_url = $newFileName;
-      //   header('Content-Type: application/octet-stream');
-      //   header("Content-Transfer-Encoding: Binary");
-      //   header("Content-disposition: attachment; filename=\"" . basename($file_url) . "\"");
-      //   readfile($file_url);
-      //   unlink($file_url);
-      //   return;
-      // }
+    // check if the image is valid
+    if (!$image || !($image instanceof GdImage)) {
+      throw new InvalidArgumentException('Le fichier n\'est pas une image supportée');
     }
+
+    return $image;
   }
+
+
+
   /**
    * @param string|UploadedFile $data link (folder or file) to send
    */
@@ -130,22 +60,6 @@ class ImageConverter
         readfile($data);
         unlink($data);
       }
-      // if (is_dir($data)) {
-      //   // dd('dossier');
-
-      //   // create a zip file and send it
-      //   $zip = new \ZipArchive();
-
-
-      //   $zipFileName = $data . '.zip';
-      //   dd($zipFileName);
-      //   if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-      //     throw new Exception('Impossible de créer le fichier zip');
-      //   }
-
-
-      // return $zip;
-      // }
     }
   }
 }
