@@ -2,6 +2,7 @@ services:
     php:
         image: converter_webp
         container_name: converter_webp
+        restart: always
 
         build:
             context: .
