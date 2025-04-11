@@ -14,6 +14,6 @@ services:
             - "8089:80"
         volumes:
             - .:/var/www/html
-    networks:
-        - traefik:
-            external: true
+networks:
+    - traefik:
+        external: true
