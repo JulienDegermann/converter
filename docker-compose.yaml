@@ -5,7 +5,7 @@ services:
         restart: always
         labels:
             - "traefik.enable=true" # Active Traefik pour ce conteneur
-            - "traefik.http.routers.webpconverter.rule=Host('webp-converter.ju2breizh.fr')"
+            - "traefik.http.routers.webpconverter.rule=Host(`webp-converter.ju2breizh.fr`)"
             - "traefik.http.services.webpconverter.loadbalancer.server.port=80"
         build:
             context: .
