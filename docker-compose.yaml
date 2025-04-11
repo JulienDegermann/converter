@@ -3,7 +3,10 @@ services:
         image: converter_webp
         container_name: converter_webp
         restart: always
-
+        labels:
+            - "traefik.enable=true" # Active Traefik pour ce conteneur
+            - "traefik.http.routers.webpconverter.rule=Host('webp-converter.ju2breizh.fr')"
+            - "traefik.http.services.webpconverter.loadbalancer.server.port=80"
         build:
             context: .
             dockerfile: Dockerfile
@@ -11,3 +14,6 @@ services:
             - "8089:80"
         volumes:
             - .:/var/www/html
+        networks:
+            - traefik:
+                external: true
