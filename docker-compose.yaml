@@ -5,17 +5,20 @@ services:
         restart: always
         labels:
             - "traefik.enable=true" # Active Traefik pour ce conteneur
+            - "traefik.docker.networks=traefik" # traefik network
             - "traefik.http.routers.webpconverter.rule=Host(`webp-converter.ju2breizh.fr`)"
-            - "traefik.http.services.webpconverter.loadbalancer.server.port=8089"
+            - "traefik.http.services.webpconverter.loadbalancer.server.port=80"
         build:
             context: .
             dockerfile: Dockerfile
         ports:
-            - "8089:80"
+            # - "8089:80"
+            - "80"
         volumes:
             - .:/var/www/html
         networks:
             - traefik
 networks:
     traefik:
-        external: true
+        external:
+            name: traefik_webgateway
