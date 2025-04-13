@@ -21,4 +21,4 @@ services:
 networks:
     traefik:
         external:
-            name: traefik_webgateway
+            name: proxy-reverse_webgateway
