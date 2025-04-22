@@ -3,9 +3,11 @@ services:
         image: converter_webp
         container_name: converter_webp
         restart: always
+        ports:
+            - "80"
         labels:
             - traefik.enable=true
-            - traefik.http.routers.webpconverter.rule=Host(`webp-converter.ju2breizh.fr`)
+            - traefik.http.routers.webpconverter.rule=Host(`webp-converter.localhost`)
         build:
             context: .
             dockerfile: Dockerfile
