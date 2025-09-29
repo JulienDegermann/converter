@@ -7,9 +7,9 @@ services:
             - "80"
         labels:
             - traefik.enable=true
-            - traefik.http.routers.webpconverter.rule=Host(`webp-converter.localhost`)
+            - traefik.http.routers.webpconverter.rule=Host(`webp-converter.ju2breizh.fr`)
         build:
-            context: 
+            context: .
         volumes:
             - .:/var/www/html
         networks:
