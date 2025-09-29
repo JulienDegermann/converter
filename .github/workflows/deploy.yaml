@@ -6,6 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Deploy
         uses: appleboy/ssh-action@v1.2.0
@@ -16,6 +17,6 @@ jobs:
           script: |
             cd converter
             git pull origin main
-            docker-compose build
+            docker-compose build --no-cache php
             docker-compose up php -d --no-deps --force-recreate 
             docker builder prune -f
