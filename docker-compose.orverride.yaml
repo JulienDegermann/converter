@@ -1,0 +1,9 @@
+services:
+    php:
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.webpconverter.rule=Host(`webp-converter.localhost`)
+        build:
+            context: .
+        volumes:
+            - .:/var/www/html

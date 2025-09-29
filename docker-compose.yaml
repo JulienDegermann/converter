@@ -10,8 +10,6 @@ services:
             - traefik.http.routers.webpconverter.rule=Host(`webp-converter.ju2breizh.fr`)
         build:
             context: .
-        volumes:
-            - .:/var/www/html
         networks:
             - webgateway
 networks:
