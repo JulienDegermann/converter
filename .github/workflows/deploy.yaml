@@ -17,12 +17,12 @@ jobs:
             - name: Connect SSH and rebuild
               uses: appleboy/ssh-action@v1.2.0
               with:
-                host: ${{ secrets.SERVER_IP }}
-                username: ${{ secrets.SERVER_USER }}
-                key: ${{ secrets.SSH_KEY }}
-                script: |
-                  cd converter
-                  git pull origin main
-                  docker-compose build --no-cache php
-                  docker-compose up php -d --no-deps --force-recreate 
-                  docker builder prune -f
+                  host: ${{ secrets.SERVER_IP }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SSH_KEY }}
+                  script: |
+                      cd converter
+                      git pull origin main
+                      docker-compose build --no-cache php
+                      docker-compose up php -d --no-deps --force-recreate 
+                      docker builder prune -f
