@@ -1,10 +1,12 @@
 
 ###> symfony/framework-bundle ###
 /.env.local
-/.env.local.php
+/.env.prod
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
+/public/uploasds/*
+!/public/uploasds/.gitkeep
 /var/
 /vendor/
 docker-compose.override.yaml

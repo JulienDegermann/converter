@@ -1,22 +1,28 @@
 name: deploy
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
+    pull_request:
+        types:
+            - closed
+        branches:
+            - main
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            cd converter
-            git pull origin main
-            docker-compose build --no-cache php
-            docker-compose up php -d --no-deps --force-recreate 
-            docker builder prune -f
+    deploy:
+        runs-on: ubuntu-latest
+        environment: production
+        if: ${{ github.event.pull_request.merged }}
+        steps:
+            - name: Connect SSH and rebuild
+              uses: appleboy/ssh-action@v1.2.0
+              with:
+                host: ${{ secrets.SERVER_IP }}
+                username: ${{ secrets.SERVER_USER }}
+                key: ${{ secrets.SSH_KEY }}
+                script: |
+                  cd converter
+                  git pull origin main
+                  docker-compose build --no-cache php
+                  docker-compose up php -d --no-deps --force-recreate 
+                  docker builder prune -f
