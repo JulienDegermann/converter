@@ -18,7 +18,7 @@ class HomeController extends AbstractController
         Request $request,
         DownloadImageOrZip $dl
     ): StreamedResponse | Response {
-
+    
         $form = $this->createForm(SendFileType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
