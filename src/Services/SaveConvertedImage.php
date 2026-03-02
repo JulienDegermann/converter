@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use GdImage;
 use App\Services\ImageConverter;
-use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class SaveConvertedImage
@@ -37,7 +35,7 @@ final class SaveConvertedImage
         // convert and save the image and destroy the image created (RAM)
         $image = $this->imageConverter->convertToWebp($file);
         imagewebp($image, $filePath, -1);
-        imagedestroy($image);
+        imagedestroy($image); // free memory
 
         return $filePath;
     }
