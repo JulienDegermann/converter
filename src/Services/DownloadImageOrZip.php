@@ -81,6 +81,8 @@ final class DownloadImageOrZip
                 }
             });
 
+            sleep($fileCount * 2);
+
             unlink($zipName);
         } elseif (file_exists($path) && is_file($path)) {
             header('Content-Type: application/octet-stream');
